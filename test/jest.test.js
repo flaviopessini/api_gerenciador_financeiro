@@ -30,6 +30,6 @@ test('Devo saber trabalhar com objetos', () => {
   const obj2 = { name: 'Flávio', email: 'abc@gmail.com' };
 
   // Compara os 2 objetos.
-  expect(obj2).toBe(obj);
+  // expect(obj2).toBe(obj); //falha
   expect(obj2).toEqual(obj);
 });

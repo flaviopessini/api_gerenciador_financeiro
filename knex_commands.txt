@@ -1,0 +1,5 @@
+### Cria uma nova migration
+$ npx knex migrate:make nome_da_migration --env test
+
+### Aplicação da migration
+$ npx knex migrate:latest --env test

@@ -24,18 +24,18 @@ app.get('/', (req, res) => res.status(200).send());
 /**
  * Listener para log das ações de query no knex.
  */
-app.db
-  .on('query', (query) => {
-    console.log({
-      sql: query.sql,
-      bindings: query.bindings ? query.bindings.join(', ') : '',
-    });
-  })
-  .on('query-response', (response) => {
-    console.log(response);
-  })
-  .on('error', (error) => {
-    console.error(error);
-  });
+// app.db
+//   .on('query', (query) => {
+//     console.log({
+//       sql: query.sql,
+//       bindings: query.bindings ? query.bindings.join(', ') : '',
+//     });
+//   })
+//   .on('query-response', (response) => {
+//     console.log(response);
+//   })
+//   .on('error', (error) => {
+//     console.error(error);
+//   });
 
 module.exports = app;

@@ -6,3 +6,6 @@ $ npx knex migrate:latest --env test
 
 ### Desfazer migration aplicada
 $ npx knex migrate:rollback --env test
+
+### Cria tabela account
+$ npx knex migrate:make create_account_table --env test

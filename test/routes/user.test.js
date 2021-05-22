@@ -2,6 +2,9 @@ const request = require('supertest');
 
 const app = require('../../src/app');
 
+const generatedEmail = `${Date.now()}@example.com`;
+const generatedName = `John ${Math.floor(Math.random() * 100)}`;
+
 /**
  * test.skip
  * test.only
@@ -14,16 +17,14 @@ test('Deve listar todos os usuários', async () => {
 });
 
 test('Deve inserir novo usuário com sucesso', async () => {
-  const randomEmail = `${Date.now()}@example.com`;
-  const randomName = `John ${Math.floor(Math.random() * 100)}`;
   const data = {
-    name: randomName,
-    email: randomEmail,
+    name: generatedName,
+    email: generatedEmail,
     passwd: '123456',
   };
   const res = await request(app).post('/users').send(data);
   expect(res.status).toBe(201);
-  expect(res.body.name).toBe(randomName);
+  expect(res.body.name).toBe(generatedName);
 });
 
 test('Não deve inserir usuário sem nome', async () => {
@@ -51,4 +52,15 @@ test('Não deve inserir usuário sem senha', async () => {
   });
   expect(res.status).toBe(400);
   expect(res.body.error).toBe('Senha é um atributo obrigatório');
+});
+
+test('Não deve inserir usuário com email já existente', async () => {
+  const data = {
+    name: generatedName,
+    email: generatedEmail,
+    passwd: '123456',
+  };
+  const res = await request(app).post('/users').send(data);
+  expect(res.status).toBe(400);
+  expect(res.body.error).toBe('Já existe um usuário com esse email');
 });

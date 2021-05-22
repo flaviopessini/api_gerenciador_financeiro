@@ -27,3 +27,10 @@ test('Deve inserir uma conta com sucesso', async () => {
   expect(res.status).toBe(201);
   expect(res.body.name).toBe('Acc #1');
 });
+
+test('Deve listar todas as contas', async () => {
+  await app.db('accounts').insert({ name: 'Acc list', user_id: user.id });
+  const res = await request(app).get(MAIN_ROUTE);
+  expect(res.status).toBe(200);
+  expect(res.body.length).toBeGreaterThan(0);
+});

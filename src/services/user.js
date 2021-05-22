@@ -5,6 +5,9 @@ module.exports = (app) => {
   };
 
   const save = (user) => {
+    if (!user.name) {
+      return { error: 'Nome é um atributo obrigatório' };
+    }
     // Insere um novo registro e retorna tudo que foi criado.
     return app.db('users').insert(user, '*');
   };

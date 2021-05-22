@@ -34,3 +34,13 @@ test('Deve listar todas as contas', async () => {
   expect(res.status).toBe(200);
   expect(res.body.length).toBeGreaterThan(0);
 });
+
+test('Deve retornar uma conta por ID', async () => {
+  const acc = await app
+    .db('accounts')
+    .insert({ name: 'Acc By ID', user_id: user.id }, ['id']);
+  const res = await request(app).get(`${MAIN_ROUTE}/${acc[0].id}`);
+  expect(res.status).toBe(200);
+  expect(res.body.name).toBe('Acc By ID');
+  expect(res.body.user_id).toBe(user.id);
+});

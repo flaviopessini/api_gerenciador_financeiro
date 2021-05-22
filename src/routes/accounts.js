@@ -19,5 +19,10 @@ module.exports = (app) => {
     return res.status(201).json(result[0]);
   };
 
-  return { findAll, create };
+  const findById = async (req, res) => {
+    const result = await app.services.account.findById({ id: req.params.id });
+    return res.status(200).json(result);
+  };
+
+  return { findAll, create, findById };
 };

@@ -8,5 +8,9 @@ module.exports = (app) => {
     return app.db('accounts').insert(account, '*');
   };
 
-  return { findAll, save };
+  const findById = (filter = {}) => {
+    return app.db('accounts').where(filter).first();
+  };
+
+  return { findAll, save, findById };
 };

@@ -1,6 +1,6 @@
 module.exports = (app) => {
   const findAll = async (req, res) => {
-    const users = await app.db('users').select();
+    const users = await app.services.user.findAll();
     return res.status(200).json(users);
   };
 
@@ -10,8 +10,7 @@ module.exports = (app) => {
     }
 
     const user = req.body;
-    // Insere um novo registro e retorna tudo o que foi criado.
-    const result = await app.db('users').insert(user, '*');
+    const result = await app.services.user.save(user);
 
     return res.status(201).json(result[0]);
   };

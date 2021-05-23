@@ -1,6 +1,5 @@
 const express = require('express');
 
-module.exports = app => {
-  //
+module.exports = (app) => {
   app.use(express.json());
 };

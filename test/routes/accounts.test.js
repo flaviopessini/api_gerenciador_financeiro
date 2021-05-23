@@ -28,6 +28,15 @@ test('Deve inserir uma conta com sucesso', async () => {
   expect(res.body.name).toBe('Acc #1');
 });
 
+test('Não deve inserir uma conta sem nome', async () => {
+  const data = {
+    user_id: user.id,
+  };
+  const res = await request(app).post(MAIN_ROUTE).send(data);
+  expect(res.status).toBe(400);
+  expect(res.body.error).toBe('Nome é um atributo obrigatório');
+});
+
 test('Deve listar todas as contas', async () => {
   await app.db('accounts').insert({ name: 'Acc list', user_id: user.id });
   const res = await request(app).get(MAIN_ROUTE);

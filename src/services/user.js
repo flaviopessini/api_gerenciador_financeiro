@@ -3,7 +3,7 @@ const ValidationError = require('../errors/ValidationErrors');
 module.exports = (app) => {
   const findAll = (filter = {}) => {
     // Retorna todos os registros.
-    return app.db('users').where(filter).select();
+    return app.db('users').where(filter).select(['id', 'name', 'email']);
   };
 
   const save = async (user) => {
@@ -23,7 +23,7 @@ module.exports = (app) => {
     }
 
     // Insere um novo registro e retorna tudo que foi criado.
-    return app.db('users').insert(user, '*');
+    return app.db('users').insert(user, ['id', 'name', 'email']);
   };
 
   return { findAll, save };

@@ -12,5 +12,14 @@ module.exports = (app) => {
     return app.db('accounts').where(filter).first();
   };
 
-  return { findAll, save, findById };
+  const update = (id, account) => {
+    return app.db('accounts').where({ id }).update(account, '*');
+  };
+
+  return {
+    findAll,
+    save,
+    findById,
+    update,
+  };
 };

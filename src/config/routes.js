@@ -9,5 +9,8 @@ module.exports = (app) => {
     .route('/accounts')
     .get(app.routes.accounts.findAll)
     .post(app.routes.accounts.create);
-  app.route('/accounts/:id').get(app.routes.accounts.findById);
+  app
+    .route('/accounts/:id')
+    .get(app.routes.accounts.findById)
+    .put(app.routes.accounts.update);
 };

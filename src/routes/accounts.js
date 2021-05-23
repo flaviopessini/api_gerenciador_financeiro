@@ -24,5 +24,20 @@ module.exports = (app) => {
     return res.status(200).json(result);
   };
 
-  return { findAll, create, findById };
+  const update = async (req, res) => {
+    if (req.body == null) {
+      return res.status(400).send();
+    }
+
+    const result = await app.services.account.update(req.params.id, req.body);
+
+    return res.status(200).json(result[0]);
+  };
+
+  return {
+    findAll,
+    create,
+    findById,
+    update,
+  };
 };

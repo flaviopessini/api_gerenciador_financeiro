@@ -41,11 +41,17 @@ app.use((req, res, next) => {
   next();
 });
 
-// Rota para erro inesperado
+// Rota genérica para tratar erros.
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-  next();
+  const { name, message, stack } = err;
+
+  if (name === 'ValidationError') {
+    res.status(400).json({ error: message });
+  } else {
+    res.status(500).json({ name, message, stack });
+  }
+
+  next(err);
 });
 
 module.exports = app;

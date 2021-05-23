@@ -9,14 +9,13 @@ module.exports = (app) => {
       return res.status(400).send();
     }
 
-    const user = req.body;
-    const result = await app.services.user.save(user);
-
-    if (result.error) {
-      return res.status(400).json(result);
+    try {
+      const user = req.body;
+      const result = await app.services.user.save(user);
+      return res.status(201).json(result[0]);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
     }
-
-    return res.status(201).json(result[0]);
   };
 
   return { findAll, create };

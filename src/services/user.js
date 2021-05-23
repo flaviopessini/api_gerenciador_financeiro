@@ -1,3 +1,5 @@
+const ValidationError = require('../errors/ValidationErrors');
+
 module.exports = (app) => {
   const findAll = (filter = {}) => {
     // Retorna todos os registros.
@@ -6,18 +8,18 @@ module.exports = (app) => {
 
   const save = async (user) => {
     if (!user.name) {
-      return { error: 'Nome é um atributo obrigatório' };
+      throw new ValidationError('Nome é um atributo obrigatório');
     }
     if (!user.email) {
-      return { error: 'Email é um atributo obrigatório' };
+      throw new ValidationError('Email é um atributo obrigatório');
     }
     if (!user.passwd) {
-      return { error: 'Senha é um atributo obrigatório' };
+      throw new ValidationError('Senha é um atributo obrigatório');
     }
 
     const exists = await findAll({ email: user.email });
     if (exists && exists.length > 0) {
-      return { error: 'Já existe um usuário com esse email' };
+      throw new ValidationError('Já existe um usuário com esse email');
     }
 
     // Insere um novo registro e retorna tudo que foi criado.

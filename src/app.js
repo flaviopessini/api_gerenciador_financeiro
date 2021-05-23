@@ -1,7 +1,6 @@
 const app = require('express')();
 const consign = require('consign');
 const knex = require('knex');
-// const logger = require('knex-logger');
 
 // TODO: criar dinâmico.
 // Importa arquivo de configuração para o knex.
@@ -9,9 +8,6 @@ const knexFile = require('../knexfile');
 
 // Atribui uma instância global do knex em 'app.db'.
 app.db = knex(knexFile.test);
-
-// Implementa o log para as consultas do banco de dados.
-// app.use(logger(app.db));
 
 consign({ cwd: 'src', verbose: false })
   .include('./config/middlewares.js')
@@ -38,5 +34,18 @@ app.get('/', (req, res) => res.status(200).send());
 //   .on('error', (error) => {
 //     console.error(error);
 //   });
+
+// Rota para HTTP 404 - NOT_FOUND
+app.use((req, res, next) => {
+  res.status(404).send('Sorry cant find that!');
+  next();
+});
+
+// Rota para erro inesperado
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+  next();
+});
 
 module.exports = app;

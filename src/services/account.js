@@ -1,3 +1,5 @@
+const ValidationError = require('../errors/ValidationErrors');
+
 module.exports = (app) => {
   /**
    * Retorna todos os registros da tabela.
@@ -15,7 +17,7 @@ module.exports = (app) => {
    */
   const save = (account) => {
     if (!account.name) {
-      return { error: 'Nome é um atributo obrigatório' };
+      throw new ValidationError('Nome é um atributo obrigatório');
     }
     return app.db('accounts').insert(account, '*');
   };

@@ -18,14 +18,13 @@ module.exports = (app) => {
       return res.status(400).send();
     }
 
-    const acc = req.body;
-    const result = await app.services.account.save(acc);
-
-    if (result.error) {
-      return res.status(400).json(result);
+    try {
+      const acc = req.body;
+      const result = await app.services.account.save(acc);
+      return res.status(201).json(result[0]);
+    } catch (error) {
+      return res.status(400).json({ error: error.message });
     }
-
-    return res.status(201).json(result[0]);
   };
 
   /**

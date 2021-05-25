@@ -49,3 +49,9 @@ test('Não deve autenticar usuário com senha errada', async () => {
   expect(res.status).toBe(400);
   expect(res.body.error).toBe('Usuário ou senha inválidos');
 });
+
+test('Não deve acessar uma rota protegida sem token', async () => {
+  const res = await request(app).get('/users');
+
+  expect(res.status).toBe(401);
+});

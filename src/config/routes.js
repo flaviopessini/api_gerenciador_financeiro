@@ -1,4 +1,6 @@
 module.exports = (app) => {
+  // [/auth]
+  app.route('/auth/signin').post(app.routes.auth.signin);
   // [/users]
   app
     .route('/users')

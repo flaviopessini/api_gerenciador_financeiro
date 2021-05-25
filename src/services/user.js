@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt-nodejs');
 const ValidationError = require('../errors/ValidationErrors');
 
 module.exports = (app) => {
@@ -26,8 +27,19 @@ module.exports = (app) => {
       throw new ValidationError('Já existe um usuário com esse email');
     }
 
+    // Função que recebe a senha e devolve criptografada.
+    const getPasswdHash = (passwd) => {
+      const salt = bcrypt.genSaltSync(10);
+      return bcrypt.hashSync(passwd, salt);
+    };
+
+    // Instancia uma nova cópia do objeto user recebido para poder modificar sua estrutura.
+    const newUser = { ...user };
+    // Coloca senha criptografada dentro de user.
+    newUser.passwd = getPasswdHash(user.passwd);
+
     // Insere um novo registro e retorna tudo que foi criado.
-    return app.db('users').insert(user, ['id', 'name', 'email']);
+    return app.db('users').insert(newUser, ['id', 'name', 'email']);
   };
 
   return { findAll, findOne, save };

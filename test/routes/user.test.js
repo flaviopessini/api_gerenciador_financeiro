@@ -10,13 +10,6 @@ const generatedName = `John ${Math.floor(Math.random() * 100)}`;
  * test.only
  */
 
-test('Deve listar todos os usuários', async () => {
-  const res = await request(app).get('/users');
-  expect(res.status).toBe(200);
-  expect(res.body.length).toBeGreaterThan(0);
-  expect(res.body).not.toHaveProperty('passwd');
-});
-
 test('Deve inserir novo usuário com sucesso', async () => {
   const data = {
     name: generatedName,
@@ -26,6 +19,30 @@ test('Deve inserir novo usuário com sucesso', async () => {
   const res = await request(app).post('/users').send(data);
   expect(res.status).toBe(201);
   expect(res.body.name).toBe(generatedName);
+  expect(res.body).not.toHaveProperty('passwd');
+});
+
+test('Deve armazenar senha criptografada', async () => {
+  const data = {
+    name: generatedName,
+    email: `${Date.now()}@criptografada.com`,
+    passwd: '123456',
+  };
+  const res = await request(app).post('/users').send(data);
+  expect(res.status).toBe(201);
+
+  const { id } = res.body;
+
+  const userDB = await app.services.user.findOne({ id });
+
+  expect(userDB.passwd).not.toBeUndefined();
+  expect(userDB.passwd).not.toBe(data.passwd);
+});
+
+test('Deve listar todos os usuários', async () => {
+  const res = await request(app).get('/users');
+  expect(res.status).toBe(200);
+  expect(res.body.length).toBeGreaterThan(0);
   expect(res.body).not.toHaveProperty('passwd');
 });
 

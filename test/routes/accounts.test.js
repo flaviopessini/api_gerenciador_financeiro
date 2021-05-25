@@ -6,7 +6,7 @@ const app = require('../../src/app');
 const secret = `eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2VybmFtZSI6IkphdmFJblVzZSIsImV4cCI6MTYyMTk2Njc5MywiaWF0IjoxNjIxOTY2NzkzfQ.cSfSZaUkj69ioQAauRMT9ybI1x3aO07RKKv6g-n9dbY
 `;
 
-const MAIN_ROUTE = '/accounts';
+const MAIN_ROUTE = '/v1/accounts';
 let user;
 
 /**

@@ -9,6 +9,7 @@ const secret = `eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXI
 const generatedEmail = `${Date.now()}@example.com`;
 const generatedName = `John ${Math.floor(Math.random() * 100)}`;
 
+const MAIN_ROUTE = '/v1/users';
 let user;
 
 /**
@@ -37,7 +38,7 @@ test('Deve inserir novo usuário com sucesso', async () => {
     passwd: '123456',
   };
   const res = await request(app)
-    .post('/users')
+    .post(MAIN_ROUTE)
     .send(data)
     .set('authorization', `bearer ${user.token}`);
   expect(res.status).toBe(201);
@@ -52,7 +53,7 @@ test('Deve armazenar senha criptografada', async () => {
     passwd: '123456',
   };
   const res = await request(app)
-    .post('/users')
+    .post(MAIN_ROUTE)
     .send(data)
     .set('authorization', `bearer ${user.token}`);
   expect(res.status).toBe(201);
@@ -67,7 +68,7 @@ test('Deve armazenar senha criptografada', async () => {
 
 test('Deve listar todos os usuários', async () => {
   const res = await request(app)
-    .get('/users')
+    .get(MAIN_ROUTE)
     .set('authorization', `bearer ${user.token}`);
   expect(res.status).toBe(200);
   expect(res.body.length).toBeGreaterThan(0);
@@ -76,7 +77,7 @@ test('Deve listar todos os usuários', async () => {
 
 test('Não deve inserir usuário sem nome', async () => {
   const res = await request(app)
-    .post('/users')
+    .post(MAIN_ROUTE)
     .send({
       email: 'email@email.com',
       passwd: '123456',
@@ -88,7 +89,7 @@ test('Não deve inserir usuário sem nome', async () => {
 
 test('Não deve inserir usuário sem email', async () => {
   const res = await request(app)
-    .post('/users')
+    .post(MAIN_ROUTE)
     .send({
       name: 'John Doe',
       passwd: '123456',
@@ -100,7 +101,7 @@ test('Não deve inserir usuário sem email', async () => {
 
 test('Não deve inserir usuário sem senha', async () => {
   const res = await request(app)
-    .post('/users')
+    .post(MAIN_ROUTE)
     .send({
       name: 'John Doe',
       email: 'email@email.com',
@@ -117,7 +118,7 @@ test('Não deve inserir usuário com email já existente', async () => {
     passwd: '123456',
   };
   const res = await request(app)
-    .post('/users')
+    .post(MAIN_ROUTE)
     .send(data)
     .set('authorization', `bearer ${user.token}`);
   expect(res.status).toBe(400);

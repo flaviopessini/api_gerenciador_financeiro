@@ -6,20 +6,8 @@ module.exports = (app) => {
    * @param {*} filter
    * @returns
    */
-  const findAll = (filter = {}) => {
-    return app.db('accounts').where(filter).select();
-  };
-
-  /**
-   * Insere um novo registro.
-   * @param {*} account
-   * @returns
-   */
-  const save = (account) => {
-    if (!account.name) {
-      throw new ValidationError('Nome é um atributo obrigatório');
-    }
-    return app.db('accounts').insert(account, '*');
+  const findAll = (userId) => {
+    return app.db('accounts').where({ user_id: userId }).select();
   };
 
   /**
@@ -27,8 +15,30 @@ module.exports = (app) => {
    * @param {*} filter
    * @returns
    */
-  const findById = (filter = {}) => {
+  const find = (filter = {}) => {
     return app.db('accounts').where(filter).first();
+  };
+
+  /**
+   * Insere um novo registro.
+   * @param {*} account
+   * @returns
+   */
+  const save = async (account) => {
+    if (!account.name) {
+      throw new ValidationError('Nome é um atributo obrigatório');
+    }
+
+    const accExists = await find({
+      name: account.name,
+      user_id: account.user_id,
+    });
+
+    if (accExists) {
+      throw new ValidationError('Já existe uma conta com esse nome');
+    }
+
+    return app.db('accounts').insert(account, '*');
   };
 
   /**
@@ -53,7 +63,7 @@ module.exports = (app) => {
   return {
     findAll,
     save,
-    findById,
+    find,
     update,
     remove,
   };

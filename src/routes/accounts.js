@@ -9,7 +9,7 @@ module.exports = (app) => {
    */
   router.get('/', async (req, res, next) => {
     try {
-      const accounts = await app.services.account.findAll();
+      const accounts = await app.services.account.findAll(req.user.id);
       return res.status(200).json(accounts);
     } catch (error) {
       return next(error);
@@ -45,7 +45,7 @@ module.exports = (app) => {
    */
   router.get('/:id', async (req, res, next) => {
     try {
-      const result = await app.services.account.findById({ id: req.params.id });
+      const result = await app.services.account.find({ id: req.params.id });
       return res.status(200).json(result);
     } catch (error) {
       return next(error);

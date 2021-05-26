@@ -94,6 +94,19 @@ test('Não deve inserir uma conta com nome duplicado para o mesmo usuário', asy
   expect(res.body.error).toBe('Já existe uma conta com esse nome');
 });
 
+test('Não deve retornar uma conta de outro usuário', async () => {
+  const acc = await app
+    .db('accounts')
+    .insert({ name: user2.name, user_id: user2.id }, ['id']);
+
+  const res = await request(app)
+    .get(`${MAIN_ROUTE}/${acc[0].id}`)
+    .set('authorization', `bearer ${user.token}`);
+
+  expect(res.status).toBe(403);
+  expect(res.body.error).toBe('Este recurso não pertence ao usuário');
+});
+
 test('Deve retornar uma conta por ID', async () => {
   const acc = await app
     .db('accounts')

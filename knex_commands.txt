@@ -9,3 +9,6 @@ $ npx knex migrate:rollback --env test
 
 ### Cria tabela account
 $ npx knex migrate:make create_account_table --env test
+
+### Cria tabela transactions
+$ npx knex migrate:make create_transactions_table --env test

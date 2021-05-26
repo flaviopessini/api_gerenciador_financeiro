@@ -131,6 +131,20 @@ test('Deve alterar uma conta existente', async () => {
   expect(res.body.name).toBe('Acc Updated');
 });
 
+test('Não deve alterar uma conta de outro usuário', async () => {
+  const acc = await app
+    .db('accounts')
+    .insert({ name: user2.name, user_id: user2.id }, ['id']);
+
+  const res = await request(app)
+    .put(`${MAIN_ROUTE}/${acc[0].id}`)
+    .send({ name: 'Acc Updated' })
+    .set('authorization', `bearer ${user.token}`);
+
+  expect(res.status).toBe(403);
+  expect(res.body.error).toBe('Este recurso não pertence ao usuário');
+});
+
 test('Deve remover uma conta', async () => {
   const acc = await app
     .db('accounts')
@@ -139,4 +153,17 @@ test('Deve remover uma conta', async () => {
     .delete(`${MAIN_ROUTE}/${acc[0].id}`)
     .set('authorization', `bearer ${user.token}`);
   expect(res.status).toBe(204);
+});
+
+test('Não deve remover uma conta de outro usuário', async () => {
+  const acc = await app
+    .db('accounts')
+    .insert({ name: user2.name, user_id: user2.id }, ['id']);
+
+  const res = await request(app)
+    .delete(`${MAIN_ROUTE}/${acc[0].id}`)
+    .set('authorization', `bearer ${user.token}`);
+
+  expect(res.status).toBe(403);
+  expect(res.body.error).toBe('Este recurso não pertence ao usuário');
 });

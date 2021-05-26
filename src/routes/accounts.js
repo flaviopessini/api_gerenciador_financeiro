@@ -29,7 +29,10 @@ module.exports = (app) => {
     let result;
 
     try {
-      result = await app.services.account.save(req.body);
+      result = await app.services.account.save({
+        ...req.body,
+        user_id: req.user.id,
+      });
       return res.status(201).json(result[0]);
     } catch (error) {
       return next(error);

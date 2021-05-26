@@ -26,7 +26,6 @@ beforeAll(async () => {
 test('Deve inserir uma conta com sucesso', async () => {
   const data = {
     name: 'Acc #1',
-    user_id: user.id,
   };
   const res = await request(app)
     .post(MAIN_ROUTE)
@@ -37,12 +36,9 @@ test('Deve inserir uma conta com sucesso', async () => {
 });
 
 test('Não deve inserir uma conta sem nome', async () => {
-  const data = {
-    user_id: user.id,
-  };
   const res = await request(app)
     .post(MAIN_ROUTE)
-    .send(data)
+    .send({})
     .set('authorization', `bearer ${user.token}`);
   expect(res.status).toBe(400);
   expect(res.body.error).toBe('Nome é um atributo obrigatório');

@@ -1,7 +1,29 @@
 const express = require('express');
 
+const RecursoIndevidoError = require('../errors/RecursoIndevidoError');
+
 module.exports = (app) => {
   const router = express.Router();
+
+  /**
+   * Middleware que captura todas as requisições com parâmetro 'id'.
+   * Valida o 'id' do usuário logado para permitir as consultas.
+   */
+  router.param('id', async (req, res, next) => {
+    try {
+      const acc = await app.services.account.find({ id: req.params.id });
+
+      // Verifica se o id da conta pertence ao usuário logado, obtido através
+      // do token da requisição.
+      if (acc.user_id !== req.user.id) {
+        throw new RecursoIndevidoError();
+      }
+    } catch (error) {
+      return next(error);
+    }
+
+    return next();
+  });
 
   /**
    * Rota que retorna todos os registros da tabela 'accounts'.
@@ -46,11 +68,6 @@ module.exports = (app) => {
   router.get('/:id', async (req, res, next) => {
     try {
       const result = await app.services.account.find({ id: req.params.id });
-      if (result.user_id !== req.user.id) {
-        return res
-          .status(403)
-          .json({ error: 'Este recurso não pertence ao usuário' });
-      }
       return res.status(200).json(result);
     } catch (error) {
       return next(error);

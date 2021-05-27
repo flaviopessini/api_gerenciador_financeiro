@@ -12,5 +12,14 @@ module.exports = (app) => {
     }
   });
 
+  router.post('/', async (req, res, next) => {
+    try {
+      const result = await app.services.transaction.save(req.body);
+      return res.status(201).json(result[0]);
+    } catch (error) {
+      return next(error);
+    }
+  });
+
   return router;
 };

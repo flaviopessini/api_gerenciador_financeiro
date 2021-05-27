@@ -22,10 +22,15 @@ module.exports = (app) => {
     return app.db('transactions').where({ id }).update(transaction, '*');
   };
 
+  const remove = (id) => {
+    return app.db('transactions').where({ id }).del();
+  };
+
   return {
     find,
     findOne,
     save,
     update,
+    remove,
   };
 };

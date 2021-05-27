@@ -84,5 +84,5 @@ test('Deve listar apenas as transações do usuário', async () => {
 
   expect(res.status).toBe(200);
   expect(res.body).toHaveLength(1);
-  expect(res.body.description).toBe('Transação do usuário 1');
+  expect(res.body[0].description).toBe('Transação do usuário 1');
 });

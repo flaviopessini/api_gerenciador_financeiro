@@ -140,7 +140,7 @@ test('Deve alterar uma trasação por ID', async () => {
   );
 
   const res = await request(app)
-    .put(MAIN_ROUTE)
+    .put(`${MAIN_ROUTE}/${tran[0].id}`)
     .set('authorization', `bearer ${user.token}`)
     .send({ description: 'Updated', ammount: 9123.99, status: true });
 

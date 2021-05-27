@@ -140,6 +140,52 @@ test('Transações de saída devem ser negativas', async () => {
   expect(res.body.ammount).toBe('-120.00');
 });
 
+describe('Ao tentar inserir uma transação inválida', () => {
+  let validTransaction;
+
+  // Executa antes de tudo ao entrar neste escopo describe().
+  beforeAll(() => {
+    // Preenche o objeto de transação para ser reutilizado pelos testes abaixo.
+    validTransaction = {
+      description: 'Valid Transaction',
+      date: new Date(),
+      ammount: 599.99,
+      type: 'I',
+      status: false,
+      acc_id: accuser1.id,
+    };
+  });
+
+  // Define um template para reutilizar código da requisição.
+  const testTemplate = async (newData, errorMessage) => {
+    const res = await request(app)
+      .post(MAIN_ROUTE)
+      .set('authorization', `bearer ${user.token}`)
+      .send({ ...validTransaction, ...newData });
+
+    expect(res.status).toBe(400);
+    expect(res.body.error).toBe(errorMessage);
+  };
+
+  test('Não deve inserir sem descrição', () =>
+    testTemplate({ description: null }, 'Descrição é um atributo obrigatório'));
+
+  test('Não deve inserir sem valor', () =>
+    testTemplate({ ammount: null }, 'Valor é um atributo obrigatório'));
+
+  test('Não deve inserir sem data', () =>
+    testTemplate({ date: null }, 'Data é um atributo obrigatório'));
+
+  test('Não deve inserir sem conta', () =>
+    testTemplate({ acc_id: null }, 'Conta é um atributo obrigatório'));
+
+  test('Não deve inserir sem tipo', () =>
+    testTemplate({ type: null }, 'Tipo é um atributo obrigatório'));
+
+  test('Não deve inserir com tipo inválido', () =>
+    testTemplate({ type: 'x' }, 'Tipo inválido'));
+});
+
 test('Deve retornar uma transação por ID', async () => {
   const tran = await app.db('transactions').insert(
     {

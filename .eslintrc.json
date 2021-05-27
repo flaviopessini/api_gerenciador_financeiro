@@ -10,6 +10,7 @@
     "ecmaVersion": 12
   },
   "rules": {
-    "arrow-body-style": "off"
+    "arrow-body-style": "off",
+    "implicit-arrow-linebreak": "off"
   }
 }

@@ -146,6 +146,6 @@ test('Deve alterar uma trasação por ID', async () => {
 
   expect(res.status).toBe(200);
   expect(res.body.id).toBe(tran[0].id);
-  expect(res.body.ammount).toBe(9123.99);
+  expect(res.body.description).toBe('Updated');
   expect(res.body.status).toBe(true);
 });

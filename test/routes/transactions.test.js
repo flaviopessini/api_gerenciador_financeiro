@@ -125,3 +125,27 @@ test('Deve retornar uma transação por ID', async () => {
   expect(res.body.id).toBe(tran[0].id);
   expect(res.body.description).toBe('T ID');
 });
+
+test('Deve alterar uma trasação por ID', async () => {
+  const tran = await app.db('transactions').insert(
+    {
+      description: 'to Update',
+      date: new Date(),
+      ammount: 199.98,
+      type: 'I',
+      status: false,
+      acc_id: accuser1.id,
+    },
+    ['id'],
+  );
+
+  const res = await request(app)
+    .put(MAIN_ROUTE)
+    .set('authorization', `bearer ${user.token}`)
+    .send({ description: 'Updated', ammount: 9123.99, status: true });
+
+  expect(res.status).toBe(200);
+  expect(res.body.id).toBe(tran[0].id);
+  expect(res.body.ammount).toBe(9123.99);
+  expect(res.body.status).toBe(true);
+});

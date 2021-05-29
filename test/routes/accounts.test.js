@@ -13,7 +13,7 @@ let user2;
 /**
  * Executa esta função antes de todos os tests.
  */
-beforeEach(async () => {
+beforeAll(async () => {
   const res = await app.services.user.save({
     name: 'John Doe',
     email: `${Date.now()}@example.com`,
@@ -31,6 +31,11 @@ beforeEach(async () => {
   // Cria um seundo usuário para validar queries.
   user2 = { ...res2[0] };
 });
+
+// beforeEach(async () => {
+//   await app.db('transactions').del();
+//   await app.db('accounts').del();
+// });
 
 test('Deve inserir uma conta com sucesso', async () => {
   const data = {
@@ -63,6 +68,8 @@ test('Não deve inserir uma conta sem nome', async () => {
 // });
 
 test('Deve listar apenas as contas pertencentes ao usuário', async () => {
+  await app.db('transactions').del();
+  await app.db('accounts').del();
   await app.db('accounts').insert([
     {
       name: user.name,

@@ -15,3 +15,9 @@ $ npx knex migrate:make create_transactions_table --env test
 
 ### Aplica migrations
 $ npx knex migrate:latest --env test
+
+### Cria tabela transfers
+$ npx knex migrate:make create_transfers_trable --env test
+
+### Aplicação da migration
+$ npx knex migrate:latest --env test

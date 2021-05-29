@@ -21,3 +21,11 @@ $ npx knex migrate:make create_transfers_trable --env test
 
 ### Aplicação da migration
 $ npx knex migrate:latest --env test
+
+
+### Geração de massa de dados para teste (seeds)
+$ npx knex seed:make transfer --env test
+
+
+### Execução do seed
+$ npx knex seed:run --env test

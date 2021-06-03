@@ -13,14 +13,14 @@ exports.seed = (knex) => {
           name: 'User #1',
           email: 'user_1@example.com',
           passwd:
-            '$2y$10$sye4/ssJBAGdUOikLuOCjeTAbiKiqWAu/VlXnLN1dBlVmb.l3FFwO',
+            '$2a$10$rD7/4wT0dOyClbXSh9tCZuzGPXMk6kxrvC3DNmFW9W.f30jhOHote',
         },
         {
           id: 10001,
           name: 'User #2',
           email: 'user_2@example.com',
           passwd:
-            '$2y$10$sye4/ssJBAGdUOikLuOCjeTAbiKiqWAu/VlXnLN1dBlVmb.l3FFwO',
+            '$2a$10$rD7/4wT0dOyClbXSh9tCZuzGPXMk6kxrvC3DNmFW9W.f30jhOHote',
         },
       ]),
     )

@@ -8,6 +8,13 @@ const MAIN_ROUTE = '/v1/transfers';
 const TOKEN =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTAwMDAsIm5hbWUiOiJVc2VyICMxIiwiZW1haWwiOiJ1c2VyXzFAZXhhbXBsZS5jb20ifQ.mO6gC1kNjXYP9tjpvcKkp6Y6kb6o07skQ_WRwCyaO-0';
 
+/**
+ * É necessário executar o seed antes dos testes.
+ */
+beforeAll(() => {
+  return app.db.seed.run();
+});
+
 test('Deve listar apenas as transferências do usuário', async () => {
   const res = await request(app)
     .get(MAIN_ROUTE)

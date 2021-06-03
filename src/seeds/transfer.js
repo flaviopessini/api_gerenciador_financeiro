@@ -57,7 +57,7 @@ exports.seed = (knex) => {
     .then(() =>
       knex('transactions').insert([
         {
-          description: 'Transferencia de acc_ori #1',
+          description: 'Transfer from AccO #1',
           date: new Date(),
           ammount: 100.0,
           type: 'I',
@@ -65,7 +65,7 @@ exports.seed = (knex) => {
           transfer_id: 10000,
         },
         {
-          description: 'Transferencia para acc_dest #1',
+          description: 'Transfer to AccD #1',
           date: new Date(),
           ammount: -100.0,
           type: 'O',
@@ -73,15 +73,15 @@ exports.seed = (knex) => {
           transfer_id: 10000,
         },
         {
-          description: 'Transferencia para acc_dest #2',
+          description: 'Transfer from AccO #2',
           date: new Date(),
-          ammount: -100.0,
+          ammount: 100.0,
           type: 'O',
           acc_id: 10003,
           transfer_id: 10001,
         },
         {
-          description: 'Transferencia para acc_dest #2',
+          description: 'Transfer to AccD #2',
           date: new Date(),
           ammount: -100.0,
           type: 'O',

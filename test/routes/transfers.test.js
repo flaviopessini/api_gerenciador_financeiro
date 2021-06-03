@@ -11,8 +11,10 @@ const TOKEN =
 /**
  * É necessário executar o seed antes dos testes.
  */
-beforeAll(() => {
-  return app.db.seed.run();
+beforeAll(async () => {
+  // await app.db.migrate.rollback();
+  // await app.db.migrate.latest();
+  await app.db.seed.run();
 });
 
 test('Deve listar apenas as transferências do usuário', async () => {

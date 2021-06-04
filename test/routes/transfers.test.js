@@ -25,3 +25,20 @@ test('Deve listar apenas as transferências do usuário', async () => {
   expect(res.body).toHaveLength(1);
   expect(res.body[0].description).toBe('Transfer #1');
 });
+
+test('Deve inserir uma transferência com sucesso', async () => {
+  const res = await request(app)
+    .post(MAIN_ROUTE)
+    .set('authorization', `bearer ${TOKEN}`)
+    .send({
+      description: 'Regular transfer',
+      user_id: 10000,
+      acc_ori_id: 10000,
+      acc_dest_id: 10001,
+      ammount: 100.99,
+      date: new Date(),
+    });
+
+  expect(res.status).toBe(201);
+  expect(res.body.description).toBe('Regular transfer');
+});

@@ -3,5 +3,9 @@ module.exports = (app) => {
     return app.db('transfers').where(filter).select();
   };
 
-  return { find };
+  const save = (transfer) => {
+    return app.db('transfers').insert(transfer, '*');
+  };
+
+  return { find, save };
 };

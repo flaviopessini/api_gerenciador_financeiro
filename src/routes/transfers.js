@@ -12,5 +12,15 @@ module.exports = (app) => {
     }
   });
 
+  router.post('/', async (req, res, next) => {
+    try {
+      const transfer = { ...req.body, user_id: req.user.id };
+      const result = await app.services.transfer.save(transfer);
+      return res.status(201).json(result[0]);
+    } catch (error) {
+      return next(error);
+    }
+  });
+
   return router;
 };

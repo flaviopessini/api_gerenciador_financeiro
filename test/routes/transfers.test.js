@@ -263,3 +263,11 @@ describe('Ao remover transferência', () => {
     expect(res).toHaveLength(0);
   });
 });
+
+test('Não deve retornar transferência de outro usuário', async () => {
+  const res = await request(app)
+    .get(`${MAIN_ROUTE}/10001`)
+    .set('authorization', `bearer ${TOKEN}`);
+  expect(res.status).toBe(403);
+  expect(res.body.error).toBe('Este recurso não pertence ao usuário');
+});

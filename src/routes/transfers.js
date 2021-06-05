@@ -1,7 +1,22 @@
 const express = require('express');
 
+const RecursoIndevidoError = require('../errors/RecursoIndevidoError');
+
 module.exports = (app) => {
   const router = express.Router();
+
+  router.param('id', async (req, res, next) => {
+    try {
+      const result = await app.services.transfer.findOne({ id: req.params.id });
+      if (result.user_id !== req.user.id) {
+        throw new RecursoIndevidoError();
+      }
+    } catch (error) {
+      return next(error);
+    }
+
+    return next();
+  });
 
   const validate = (req, res, next) => {
     app.services.transfer

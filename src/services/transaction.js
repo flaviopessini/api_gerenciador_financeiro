@@ -1,18 +1,15 @@
 const ValidationError = require('../errors/ValidationErrors');
 
 module.exports = (app) => {
-  const find = (userId, filter = {}) => {
-    return app
+  const find = (userId, filter = {}) =>
+    app
       .db('transactions')
       .join('accounts', 'accounts.id', 'acc_id')
       .where(filter)
       .andWhere('accounts.user_id', '=', userId)
       .select();
-  };
 
-  const findOne = (filter) => {
-    return app.db('transactions').where(filter).first();
-  };
+  const findOne = (filter) => app.db('transactions').where(filter).first();
 
   const save = (transaction) => {
     if (!transaction.description) {
@@ -39,9 +36,8 @@ module.exports = (app) => {
     return app.db('transactions').insert(newTransaction, '*');
   };
 
-  const update = (id, transaction) => {
-    return app.db('transactions').where({ id }).update(transaction, '*');
-  };
+  const update = (id, transaction) =>
+    app.db('transactions').where({ id }).update(transaction, '*');
 
   const remove = async (id) => {
     const transaction = await app.services.transaction.findOne({ acc_id: id });

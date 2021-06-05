@@ -6,18 +6,15 @@ module.exports = (app) => {
    * @param {*} filter
    * @returns
    */
-  const findAll = (userId) => {
-    return app.db('accounts').where({ user_id: userId }).select();
-  };
+  const findAll = (userId) =>
+    app.db('accounts').where({ user_id: userId }).select();
 
   /**
    * Busca um registro pelo ID.
    * @param {*} filter
    * @returns
    */
-  const find = (filter = {}) => {
-    return app.db('accounts').where(filter).first();
-  };
+  const find = (filter = {}) => app.db('accounts').where(filter).first();
 
   /**
    * Insere um novo registro.
@@ -47,9 +44,8 @@ module.exports = (app) => {
    * @param {*} account
    * @returns
    */
-  const update = (id, account) => {
-    return app.db('accounts').where({ id }).update(account, '*');
-  };
+  const update = (id, account) =>
+    app.db('accounts').where({ id }).update(account, '*');
 
   /**
    * Remove um registro existente.

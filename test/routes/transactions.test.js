@@ -1,3 +1,6 @@
+/* global beforeAll, test, expect, describe */
+/* eslint no-undef: "error" */
+
 const request = require('supertest');
 const jwt = require('jwt-simple');
 
@@ -32,7 +35,7 @@ beforeAll(async () => {
         passwd: '$2y$10$sye4/ssJBAGdUOikLuOCjeTAbiKiqWAu/VlXnLN1dBlVmb.l3FFwO ',
       },
     ],
-    '*',
+    '*'
   );
 
   // Preenche as variáveis globais com os objetos de usuário retornados na consulta.
@@ -52,7 +55,7 @@ beforeAll(async () => {
       { name: 'Acc #1', user_id: user.id },
       { name: 'Acc #2', user_id: user2.id },
     ],
-    '*',
+    '*'
   );
 
   // Preenche as contas com os objetos de account retornados.
@@ -195,7 +198,7 @@ test('Deve retornar uma transação por ID', async () => {
       status: false,
       acc_id: accuser1.id,
     },
-    ['id'],
+    ['id']
   );
 
   const res = await request(app)
@@ -217,7 +220,7 @@ test('Deve alterar uma trasação por ID', async () => {
       status: false,
       acc_id: accuser1.id,
     },
-    ['id'],
+    ['id']
   );
 
   const res = await request(app)
@@ -241,7 +244,7 @@ test('Deve remover uma trasação por ID', async () => {
       status: false,
       acc_id: accuser1.id,
     },
-    ['id'],
+    ['id']
   );
 
   const res = await request(app)
@@ -261,7 +264,7 @@ test('Não deve remover uma transação de outro usuário', async () => {
       status: false,
       acc_id: accuser2.id,
     },
-    ['id'],
+    ['id']
   );
 
   const res = await request(app)
@@ -282,7 +285,7 @@ test('Não deve remover conta com transações', async () => {
       status: false,
       acc_id: accuser1.id,
     },
-    ['id'],
+    ['id']
   );
 
   const res = await request(app)

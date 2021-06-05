@@ -1,3 +1,6 @@
+/* global beforeAll, test, expect */
+/* eslint no-undef: "error" */
+
 const request = require('supertest');
 const jwt = require('jwt-simple');
 

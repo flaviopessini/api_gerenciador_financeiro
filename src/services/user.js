@@ -2,14 +2,9 @@ const bcrypt = require('bcrypt-nodejs');
 const ValidationError = require('../errors/ValidationErrors');
 
 module.exports = (app) => {
-  const findAll = () => {
-    // Retorna todos os registros.
-    return app.db('users').select(['id', 'name', 'email']);
-  };
+  const findAll = () => app.db('users').select(['id', 'name', 'email']);
 
-  const findOne = (filter = {}) => {
-    return app.db('users').where(filter).first();
-  };
+  const findOne = (filter = {}) => app.db('users').where(filter).first();
 
   const save = async (user) => {
     if (!user.name) {

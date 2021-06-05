@@ -1,3 +1,6 @@
+/* global beforeAll, test, expect, describe */
+/* eslint no-undef: "error" */
+
 const request = require('supertest');
 
 const app = require('../../src/app');
@@ -25,33 +28,6 @@ test('Deve listar apenas as transferências do usuário', async () => {
   expect(res.body).toHaveLength(1);
   expect(res.body[0].description).toBe('Transfer #1');
 });
-
-// test('Deve inserir uma transferência com sucesso', async () => {
-//   const res = await request(app)
-//     .post(MAIN_ROUTE)
-//     .set('authorization', `bearer ${TOKEN}`)
-//     .send({
-//       description: 'Regular transfer',
-//       user_id: 10000,
-//       acc_ori_id: 10000,
-//       acc_dest_id: 10001,
-//       ammount: 111.11,
-//       date: new Date(),
-//     });
-//   expect(res.status).toBe(201);
-//   expect(res.body.description).toBe('Regular transfer');
-
-//   const transactions = await app
-//     .db('transactions')
-//     .where({ transfer_id: res.body.id });
-//   expect(transactions).toHaveLength(2);
-//   expect(transactions[0].description).toBe('Transfer to acc #10001');
-//   expect(transactions[1].description).toBe('Transfer from acc #10000');
-//   expect(transactions[0].ammount).toBe('-111.11');
-//   expect(transactions[1].ammount).toBe('111.11');
-//   expect(transactions[0].acc_id).toBe(10000);
-//   expect(transactions[1].acc_id).toBe(10001);
-// });
 
 describe('Ao salvar uma transferência válida ...', () => {
   let transferId;
@@ -102,4 +78,55 @@ describe('Ao salvar uma transferência válida ...', () => {
     expect(incoming.transfer_id).toBe(transferId);
     expect(outgoing.transfer_id).toBe(transferId);
   });
+});
+
+describe('Ao tentar salvar uma transferência inválida ...', () => {
+  const validTransfer = {
+    description: 'Regular transfer',
+    user_id: 10000,
+    acc_ori_id: 10000,
+    acc_dest_id: 10001,
+    ammount: 111.11,
+    date: new Date(),
+  };
+
+  const template = (newData, errorMessage) =>
+    request(app)
+      .post(MAIN_ROUTE)
+      .set('authorization', `bearer ${TOKEN}`)
+      .send({ ...validTransfer, ...newData })
+      .then((res) => {
+        expect(res.status).toBe(400);
+        expect(res.body.error).toBe(errorMessage);
+      });
+
+  test('Não deve inserir sem descrição', () =>
+    template({ description: null }, 'Descrição é um atributo obrigatório'));
+
+  test('Não deve inserir sem valor', () =>
+    template({ ammount: null }, 'Valor é um atributo obrigatório'));
+
+  test('Não deve inserir sem data', () =>
+    template({ date: null }, 'Data é um atributo obrigatório'));
+
+  test('Não deve inserir sem conta de origem', () =>
+    template(
+      { acc_ori_id: null },
+      'Conta de origem é um atributo obrigatório'
+    ));
+
+  test('Não deve inserir sem conta de destino', () =>
+    template(
+      { acc_dest_id: null },
+      'Conta de destino é um atributo obrigatório'
+    ));
+
+  test('Não deve inserir se as contas de origem e destino forem as mesmas', () =>
+    template(
+      { acc_dest_id: validTransfer.acc_ori_id },
+      'Não é possível transferir para a mesma conta'
+    ));
+
+  test('Não deve inserir se as contas pertencerem a outro usuário', () =>
+    template({ acc_ori_id: 10002 }, 'Conta #10002 não pertence ao usuário'));
 });

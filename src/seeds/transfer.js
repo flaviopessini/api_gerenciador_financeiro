@@ -1,7 +1,7 @@
 /* eslint-disable function-paren-newline */
-exports.seed = (knex) => {
+exports.seed = (knex) =>
   // Deletes ALL existing entries
-  return knex('transactions')
+  knex('transactions')
     .del()
     .then(() => knex('transfers').del())
     .then(() => knex('accounts').del())
@@ -22,7 +22,7 @@ exports.seed = (knex) => {
           passwd:
             '$2a$10$rD7/4wT0dOyClbXSh9tCZuzGPXMk6kxrvC3DNmFW9W.f30jhOHote',
         },
-      ]),
+      ])
     )
     .then(() =>
       knex('accounts').insert([
@@ -30,7 +30,7 @@ exports.seed = (knex) => {
         { id: 10001, name: 'AccD #1', user_id: 10000 },
         { id: 10002, name: 'AccO #2', user_id: 10001 },
         { id: 10003, name: 'AccD #2', user_id: 10001 },
-      ]),
+      ])
     )
     .then(() =>
       knex('transfers').insert([
@@ -52,7 +52,7 @@ exports.seed = (knex) => {
           ammount: 100.0,
           date: new Date(),
         },
-      ]),
+      ])
     )
     .then(() =>
       knex('transactions').insert([
@@ -88,6 +88,5 @@ exports.seed = (knex) => {
           acc_id: 10002,
           transfer_id: 10001,
         },
-      ]),
+      ])
     );
-};

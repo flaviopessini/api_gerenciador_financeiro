@@ -1,7 +1,5 @@
 module.exports = (app) => {
-  const find = (filter = {}) => {
-    return app.db('transfers').where(filter).select();
-  };
+  const find = (filter = {}) => app.db('transfers').where(filter).select();
 
   const save = async (transfer) => {
     const result = await app.db('transfers').insert(transfer, '*');

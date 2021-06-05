@@ -1,3 +1,6 @@
+/* global test, expect */
+/* eslint no-undef: "error" */
+
 test('Devo conhecer as principais assertivas do jest', () => {
   let number = null;
   // Espera que seja nulo.

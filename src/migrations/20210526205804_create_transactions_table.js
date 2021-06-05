@@ -1,5 +1,5 @@
-exports.up = (knex) => {
-  return knex.schema.createTable('transactions', (t) => {
+exports.up = (knex) =>
+  knex.schema.createTable('transactions', (t) => {
     t.increments('id').primary();
     t.string('description').notNull();
     t.enum('type', ['I', 'O']).notNull();
@@ -8,8 +8,5 @@ exports.up = (knex) => {
     t.boolean('status').notNull().default(false);
     t.integer('acc_id').references('id').inTable('accounts').notNull();
   });
-};
 
-exports.down = (knex) => {
-  return knex.schema.dropTable('transactions');
-};
+exports.down = (knex) => knex.schema.dropTable('transactions');

@@ -54,7 +54,7 @@ module.exports = (app) => {
     try {
       const result = await app.services.transaction.update(
         req.params.id,
-        req.body,
+        req.body
       );
       return res.status(200).json(result[0]);
     } catch (error) {

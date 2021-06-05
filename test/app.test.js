@@ -1,3 +1,6 @@
+/* global test, expect */
+/* eslint no-undef: "error" */
+
 const request = require('supertest');
 
 const app = require('../src/app');

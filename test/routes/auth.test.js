@@ -1,3 +1,6 @@
+/* global test, expect */
+/* eslint no-undef: "error" */
+
 const request = require('supertest');
 
 const app = require('../../src/app');
@@ -9,9 +12,7 @@ test('Deve criar usuário via signup', async () => {
     passwd: '123456',
   };
 
-  const res = await request(app)
-    .post('/auth/signup')
-    .send(data);
+  const res = await request(app).post('/auth/signup').send(data);
 
   expect(res.status).toBe(201);
   expect(res.body.name).toBe(data.name);

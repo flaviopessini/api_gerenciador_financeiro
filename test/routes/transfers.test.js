@@ -138,3 +138,55 @@ test('Deve retornar uma transferência por Id', async () => {
   expect(res.status).toBe(200);
   expect(res.body.description).toBe('Transfer #1');
 });
+
+describe('Ao alterar uma transferência válida ...', () => {
+  let transferId;
+  let incoming;
+  let outgoing;
+
+  test('Deve retornar status 200 e os dados da transferência', async () => {
+    const res = await request(app)
+      .put(`${MAIN_ROUTE}/10000`)
+      .set('authorization', `bearer ${TOKEN}`)
+      .send({
+        description: 'Transfer Updated',
+        user_id: 10000,
+        acc_ori_id: 10000,
+        acc_dest_id: 10001,
+        ammount: 499.9,
+        date: new Date(),
+      });
+    expect(res.status).toBe(200);
+    expect(res.body.description).toBe('Transfer Updated');
+    expect(res.body.ammount).toBe('499.90');
+    transferId = res.body.id;
+  });
+
+  test('As transações devem ter sido geradas', async () => {
+    const transactions = await app
+      .db('transactions')
+      .where({ transfer_id: transferId })
+      .orderBy('ammount');
+    expect(transactions).toHaveLength(2);
+    [outgoing, incoming] = transactions;
+  });
+
+  test('A transação de saída deve ser negativa', () => {
+    expect(outgoing.description).toBe('Transfer to acc #10001');
+    expect(outgoing.ammount).toBe('-499.90');
+    expect(outgoing.acc_id).toBe(10000);
+    expect(outgoing.type).toBe('O');
+  });
+
+  test('A transação de entrada deve ser positiva', () => {
+    expect(incoming.description).toBe('Transfer from acc #10000');
+    expect(incoming.ammount).toBe('499.90');
+    expect(incoming.acc_id).toBe(10001);
+    expect(incoming.type).toBe('I');
+  });
+
+  test('Ambas devem referenciar a transferência de origem', () => {
+    expect(incoming.transfer_id).toBe(transferId);
+    expect(outgoing.transfer_id).toBe(transferId);
+  });
+});

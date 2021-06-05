@@ -1,11 +1,7 @@
 const ValidationError = require('../errors/ValidationErrors');
 
 module.exports = (app) => {
-  const find = (filter = {}) => app.db('transfers').where(filter).select();
-
-  const findOne = (filter = {}) => app.db('transfers').where(filter).first();
-
-  const save = async (transfer) => {
+  const validate = async (transfer) => {
     if (!transfer.description) {
       throw new ValidationError('Descrição é um atributo obrigatório');
     }
@@ -34,7 +30,12 @@ module.exports = (app) => {
         throw new ValidationError(`Conta #${acc.id} não pertence ao usuário`);
       }
     });
+  };
+  const find = (filter = {}) => app.db('transfers').where(filter).select();
 
+  const findOne = (filter = {}) => app.db('transfers').where(filter).first();
+
+  const save = async (transfer) => {
     const result = await app.db('transfers').insert(transfer, '*');
     const transferId = result[0].id;
 
@@ -91,5 +92,5 @@ module.exports = (app) => {
     return result;
   };
 
-  return { find, findOne, save, update };
+  return { find, findOne, save, update, validate };
 };

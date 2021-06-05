@@ -22,5 +22,16 @@ module.exports = (app) => {
     }
   });
 
+  router.get('/:id', async (req, res, next) => {
+    try {
+      const result = await app.services.transfer.findOne({
+        id: req.params.id,
+      });
+      return res.status(200).json(result);
+    } catch (error) {
+      return next(error);
+    }
+  });
+
   return router;
 };

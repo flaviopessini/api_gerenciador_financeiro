@@ -92,5 +92,11 @@ module.exports = (app) => {
     return result;
   };
 
-  return { find, findOne, save, update, validate };
+  const remove = async (id) => {
+    await app.db('transactions').where({ transfer_id: id }).del();
+    const result = await app.db('transfers').where({ id }).del();
+    return result;
+  };
+
+  return { find, findOne, save, update, remove, validate };
 };

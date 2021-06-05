@@ -51,6 +51,8 @@ app.use((err, req, res, next) => {
   } else if (name === 'RecursoIndevidoError') {
     res.status(403).json({ error: message });
   } else {
+    // eslint-disable-next-line no-console
+    console.error(message);
     res.status(500).json({ name, message, stack });
   }
 

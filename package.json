@@ -17,9 +17,9 @@
     }
   },
   "scripts": {
-    "start": "node src/server.js",
-    "test": "jest --coverage --runInBand --forceExit",
-    "secure-mode": "jest --watch --runInBand --forceExit --verbose=true",
+    "start": "cross-env NODE_ENV=prod node src/server.js",
+    "test": "cross-env NODE_ENV=test jest --coverage --runInBand --forceExit",
+    "secure-mode": "cross-env NODE_ENV=test jest --watch --runInBand --forceExit --verbose=true",
     "lint": "eslint src/** test/** --fix",
     "format": "prettier -w ."
   },
@@ -32,6 +32,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^7.28.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",

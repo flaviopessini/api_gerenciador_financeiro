@@ -2,12 +2,11 @@ const app = require('express')();
 const consign = require('consign');
 const knex = require('knex');
 
-// TODO: criar dinâmico.
 // Importa arquivo de configuração para o knex.
 const knexFile = require('../knexfile');
 
 // Atribui uma instância global do knex em 'app.db'.
-app.db = knex(knexFile.test);
+app.db = knex(knexFile[process.env.NODE_ENV]);
 
 consign({ cwd: 'src', verbose: false })
   .include('./config/passport.js')

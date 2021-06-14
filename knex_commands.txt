@@ -36,3 +36,6 @@ $ npx knex seed:make balance --env test
 
 ### Execução do seed
 $ npx knex seed:run --env test
+
+### Aplicação da migration em banco de produção
+$ npx knex migrate:latest --env prod

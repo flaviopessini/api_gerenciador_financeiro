@@ -10,12 +10,15 @@
         "branchs": 80,
         "functions": 80,
         "lines": 80
+      },
+      "./src/services": {
+        "lines": 99
       }
     }
   },
   "scripts": {
     "start": "node src/server.js",
-    "test": "jest --coverage --runInBand",
+    "test": "jest --coverage --runInBand --forceExit",
     "secure-mode": "jest --watch --runInBand --forceExit --verbose=true",
     "lint": "eslint src/** test/** --fix",
     "format": "prettier -w ."

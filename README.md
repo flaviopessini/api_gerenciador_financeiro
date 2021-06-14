@@ -11,3 +11,13 @@ Após executar o comando abaixo, o terminal pode ser encerrado sem que o serviç
 ```
 pm2 start npm -- start
 ```
+
+Para verificar os processos em execução
+```
+pm2 status
+```
+
+Para encerrar um processo em execução
+```
+pm2 stop 'id'
+```

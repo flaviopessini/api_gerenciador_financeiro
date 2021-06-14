@@ -29,3 +29,7 @@ $ npx knex seed:make transfer --env test
 
 ### Execução do seed
 $ npx knex seed:run --env test
+
+
+### Geração de massa de dados para 'balance'
+$ npx knex seed:make balance --env test

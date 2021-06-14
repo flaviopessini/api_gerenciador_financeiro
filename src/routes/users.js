@@ -9,7 +9,7 @@ module.exports = (app) => {
   });
 
   router.post('/', async (req, res) => {
-    if (req.body == null) {
+    if (!req.body || req.body == null) {
       return res.status(400).send();
     }
 

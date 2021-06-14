@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/server.js",
-    "test": "jest",
+    "test": "jest --coverage",
     "secure-mode": "jest --watch --runInBand --forceExit --verbose=true",
     "lint": "eslint src/** test/** --fix",
     "format": "prettier -w ."

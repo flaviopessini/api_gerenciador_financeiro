@@ -14,6 +14,8 @@ const ROUTE_TRANSFER = '/v1/transfers';
 // eslint-disable-next-line operator-linebreak
 const TOKEN =
   'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTAxMDAsIm5hbWUiOiJVc2VyICMzIiwiZW1haWwiOiJ1c2VyXzNAZXhhbXBsZS5jb20ifQ.xjKJEzfES9WUsSpmNibmDIDq3iZpJLWSSAxnUxmMO4o';
+const TOKEN_GERAL =
+  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTAxMDIsIm5hbWUiOiJVc2VyICM1IiwiZW1haWwiOiJ1c2VyXzVAZXhhbXBsZS5jb20ifQ.u5GIqCl1WG5ghF16qrKcVGUKzdB6i5X9Gf5RYTHv-ds';
 
 /**
  * É necessário executar o seed antes dos testes.
@@ -221,6 +223,19 @@ describe('Ao calcular o saldo do usuário...', () => {
     expect(res.body[0].id).toBe(10100);
     expect(res.body[0].sum).toBe('-100.00');
     expect(res.body[1].id).toBe(10101);
-    expect(res.body[1].sum).toBe('200.00');
+    expect(res.body[1].sum).toBe('300.00');
   });
+});
+
+test('Deve calcular saldo das contas do usuário', async () => {
+  const res = await request(app)
+    .get(MAIN_ROUTE)
+    .set('authorization', `bearer ${TOKEN_GERAL}`);
+
+  expect(res.status).toBe(200);
+  expect(res.body).toHaveLength(2);
+  expect(res.body[0].id).toBe(10104);
+  expect(res.body[0].sum).toBe('162.00');
+  expect(res.body[1].id).toBe(10105);
+  expect(res.body[1].sum).toBe('-248.00');
 });

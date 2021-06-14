@@ -78,6 +78,11 @@ describe('Ao salvar uma transferência válida ...', () => {
     expect(incoming.transfer_id).toBe(transferId);
     expect(outgoing.transfer_id).toBe(transferId);
   });
+
+  test('Ambas devem estar com status de realizadas', () => {
+    expect(incoming.status).toBe(true);
+    expect(outgoing.status).toBe(true);
+  });
 });
 
 describe('Ao tentar salvar uma transferência inválida ...', () => {

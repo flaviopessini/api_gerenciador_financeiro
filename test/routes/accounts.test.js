@@ -71,6 +71,7 @@ test('Não deve inserir uma conta sem nome', async () => {
 
 test('Deve listar apenas as contas pertencentes ao usuário', async () => {
   await app.db('transactions').del();
+  await app.db('transfers').del();
   await app.db('accounts').del();
   await app.db('accounts').insert([
     {

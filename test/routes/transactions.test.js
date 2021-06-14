@@ -18,6 +18,7 @@ let accuser2;
 beforeAll(async () => {
   // Limpa os registros das tabelas
   await app.db('transactions').del();
+  await app.db('transfers').del();
   await app.db('accounts').del();
   await app.db('users').del();
 
